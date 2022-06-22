@@ -5,9 +5,15 @@
   "author": "DamScan",
   "private": false,
   "license": "MIT",
+  "keywords": [
+    "ftp",
+    "ftps",
+    "tls",
+    "NestJs"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
-    "build": "nest build",
+    "build": "nest build && cp package.json README.md dist/",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

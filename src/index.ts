@@ -4,3 +4,4 @@ export * from './ftp.module';
 export * from '@interface/file.interface';
 export * from '@interface/config.interface';
 export * from '@interface/options.interface';
+export { FileInfo, FTPResponse } from 'basic-ftp';

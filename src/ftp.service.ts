@@ -53,9 +53,6 @@ export class FtpService {
         fromRemotePath,
         startAt,
       );
-    } catch (err) {
-      this._ftpClient.close();
-      throw err;
     } finally {
       this._ftpClient.close();
     }
@@ -76,9 +73,6 @@ export class FtpService {
     try {
       await this._ftpClient.access(this._options);
       return await this._ftpClient.uploadFrom(source, toRemotePath, options);
-    } catch (err) {
-      this._ftpClient.close();
-      throw err;
     } finally {
       this._ftpClient.close();
     }
@@ -92,9 +86,6 @@ export class FtpService {
     try {
       await this._ftpClient.access(this._options);
       return await this._ftpClient.remove(path);
-    } catch (err) {
-      this._ftpClient.close();
-      throw err;
     } finally {
       this._ftpClient.close();
     }
@@ -108,9 +99,6 @@ export class FtpService {
     try {
       await this._ftpClient.access(this._options);
       return await this._ftpClient.size(path);
-    } catch (err) {
-      this._ftpClient.close();
-      throw err;
     } finally {
       this._ftpClient.close();
     }
