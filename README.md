@@ -49,6 +49,8 @@ import { FtpModule } from 'nestjs-basic-ftp';
           user: config.get<string>('FTP_USER'),
           password: config.get<string>('FTP_PASS'),
           secure: config.get<boolean>('FTP_SECURE'),
+          verbose: true, // example, may not be declared
+          availableListCommands: ['LIST -a', 'LIST'], // example, may not be declared
         };
       },
       imports: [ConfigModule],

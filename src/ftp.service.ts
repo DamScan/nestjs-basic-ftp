@@ -13,8 +13,11 @@ export class FtpService {
   ) {
     this.logger.log('Starting module', 'FtpService initialized');
     this._ftpClient = new Client();
-    this._ftpClient.ftp.verbose = this._options.verbose;
-    this._ftpClient.ftp.log = (message: string) => this.logger.debug(message);
+    this._ftpClient.ftp.log = (message: string) => {
+      if (this._options.verbose) {
+        this.logger.debug(message);
+      }
+    };
   }
 
   /**
@@ -24,7 +27,7 @@ export class FtpService {
    */
   async list(path?: string): Promise<FileInfo[]> {
     try {
-      await this._ftpClient.access(this._options);
+      await this.access();
       return await this._ftpClient.list(path);
     } catch (err) {
       this._ftpClient.close();
@@ -47,7 +50,7 @@ export class FtpService {
     startAt?: number,
   ): Promise<FTPResponse> {
     try {
-      await this._ftpClient.access(this._options);
+      await this.access();
       return await this._ftpClient.downloadTo(
         destination,
         fromRemotePath,
@@ -68,7 +71,7 @@ export class FtpService {
     remoteDirPath?: string,
   ): Promise<void> {
     try {
-      await this._ftpClient.access(this._options);
+      await this.access();
       return await this._ftpClient.downloadToDir(localDirPath, remoteDirPath);
     } finally {
       this._ftpClient.close();
@@ -88,7 +91,7 @@ export class FtpService {
     options?: UploadOptions,
   ): Promise<FTPResponse> {
     try {
-      await this._ftpClient.access(this._options);
+      await this.access();
       return await this._ftpClient.uploadFrom(source, toRemotePath, options);
     } finally {
       this._ftpClient.close();
@@ -101,7 +104,7 @@ export class FtpService {
    */
   async remove(path: string): Promise<FTPResponse> {
     try {
-      await this._ftpClient.access(this._options);
+      await this.access();
       return await this._ftpClient.remove(path);
     } finally {
       this._ftpClient.close();
@@ -114,7 +117,7 @@ export class FtpService {
    */
   async size(path: string): Promise<number> {
     try {
-      await this._ftpClient.access(this._options);
+      await this.access();
       return await this._ftpClient.size(path);
     } finally {
       this._ftpClient.close();
@@ -127,5 +130,13 @@ export class FtpService {
    */
   trackProgress(): void {
     this._ftpClient.trackProgress((info) => console.log(info.bytesOverall));
+  }
+
+  private async access() {
+    await this._ftpClient.access(this._options);
+    if (this._options.availableListCommands) {
+      this._ftpClient.availableListCommands =
+        this._options.availableListCommands;
+    }
   }
 }

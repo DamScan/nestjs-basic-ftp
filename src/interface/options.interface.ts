@@ -15,6 +15,6 @@ export interface IFTPOptions {
   readonly secureOptions?: TLSConnectionOptions;
   /** Log verbose. Optional, default is false */
   readonly verbose?: boolean;
-  /** Configure it with a timeout in milliseconds that will be used for any connection made. Use 0 to disable timeouts, default is 30 seconds. */
-  //readonly timeout?: number;
+  /** Possibility of overloading the reading mode in the event of failure to resolve the module (particular case on poorly regulated or buggy windows)*/
+  readonly availableListCommands?: string[];
 }
