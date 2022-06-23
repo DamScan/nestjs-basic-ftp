@@ -11,7 +11,7 @@
     "url": "https://github.com/DamScan/nestjs-basic-ftp"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org"
   },
   "private": false,
   "license": "MIT",
