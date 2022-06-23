@@ -7,14 +7,14 @@ import { IFTPOptions } from './interface/options.interface';
 @Injectable()
 export class FtpService {
   private readonly _ftpClient: Client;
-  private logger = new Logger('NEST-BASIC-FTP', { timestamp: true });
+  private logger = new Logger('NestJs-Basic-FTP', { timestamp: true });
   constructor(
     @Inject(InjectionToken.FTP_CONFIG) private _options: IFTPOptions,
   ) {
-    this.logger.log('Starting module', 'FTP SERVICE');
+    this.logger.log('Starting module', 'FtpService initialized');
     this._ftpClient = new Client();
     this._ftpClient.ftp.verbose = this._options.verbose;
-    this._ftpClient.ftp.log = this.logger.debug;
+    this._ftpClient.ftp.log = (message: string) => this.logger.debug(message);
   }
 
   /**
@@ -53,6 +53,23 @@ export class FtpService {
         fromRemotePath,
         startAt,
       );
+    } finally {
+      this._ftpClient.close();
+    }
+  }
+  /**
+   * Download all files and directories of the current working directory to a given local directory. You can optionally set a specific remote directory. The working directory stays the same after calling this method.
+   * @param localDirPath local file repository folder
+   * @param remoteDirPath remote file download folder
+   * @returns
+   */
+  async downloadToDir(
+    localDirPath: string,
+    remoteDirPath?: string,
+  ): Promise<void> {
+    try {
+      await this._ftpClient.access(this._options);
+      return await this._ftpClient.downloadToDir(localDirPath, remoteDirPath);
     } finally {
       this._ftpClient.close();
     }

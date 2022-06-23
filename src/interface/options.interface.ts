@@ -13,8 +13,8 @@ export interface IFTPOptions {
   readonly secure?: boolean | 'implicit';
   /** Options for TLS, same as for tls.connect() in Node.js. */
   readonly secureOptions?: TLSConnectionOptions;
-  /** Log verbose. Optional, default is "false" */
-  readonly verbose?: boolean | false;
+  /** Log verbose. Optional, default is false */
+  readonly verbose?: boolean;
   /** Configure it with a timeout in milliseconds that will be used for any connection made. Use 0 to disable timeouts, default is 30 seconds. */
   //readonly timeout?: number;
 }
