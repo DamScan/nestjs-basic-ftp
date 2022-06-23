@@ -21,6 +21,12 @@
     "tls",
     "NestJs"
   ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "*.md"
+  ],
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build && cp package.json README.md dist/",
