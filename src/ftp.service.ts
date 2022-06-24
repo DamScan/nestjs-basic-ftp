@@ -149,7 +149,7 @@ export class FtpService {
     }
   }
   /**
-   * This is an instance method and thus can be called multiple times during the lifecycle of a Client instance. 
+   * This is an instance method and thus can be called multiple times during the lifecycle of a Client instance.
    */
   private async access() {
     await this._ftpClient.access(this._options);
