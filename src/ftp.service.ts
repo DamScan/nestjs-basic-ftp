@@ -98,14 +98,16 @@ export class FtpService {
     }
   }
   /**
-   * Remove a file.
+   * Remove a file from the current working directory.
+   * You can ignore FTP error return codes which won't throw an exception if e.g. the file doesn't exist.
    * @param path path to the deleted file
+   * @param ignoreErrorCodes
    * @returns
    */
-  async remove(path: string): Promise<FTPResponse> {
+  async remove(path: string, ignoreErrorCodes?: boolean): Promise<FTPResponse> {
     try {
       await this.access();
-      return await this._ftpClient.remove(path);
+      return await this._ftpClient.remove(path, ignoreErrorCodes);
     } finally {
       this._ftpClient.close();
     }
@@ -125,13 +127,30 @@ export class FtpService {
   }
   /**
    * trackProgress Info
-   * @params
+   * @param fileListing FileInfo[]
    * @returns
    */
-  trackProgress(): void {
-    this._ftpClient.trackProgress((info) => console.log(info.bytesOverall));
+  trackProgress(fileListing?: FileInfo[]): void {
+    if (fileListing) {
+      this._ftpClient.trackProgress((info) => {
+        const currentFile = fileListing.find((file) => file.name === info.name);
+        if (currentFile) {
+          this.logger.debug(
+            `${Math.round((info.bytesOverall * 100) / currentFile.size)} % of ${
+              info.name
+            } file.`,
+          );
+        }
+      });
+    } else {
+      this._ftpClient.trackProgress((info) => {
+        this.logger.debug(info);
+      });
+    }
   }
-
+  /**
+   * This is an instance method and thus can be called multiple times during the lifecycle of a Client instance. 
+   */
   private async access() {
     await this._ftpClient.access(this._options);
     if (this._options.availableListCommands) {

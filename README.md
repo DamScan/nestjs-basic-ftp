@@ -79,7 +79,7 @@ export class AppService {
     try {
       const fileList = await this._ftpService.list();
       return fileList;
-    } catch (e: any) {
+    } catch (e) {
       this.logger.error(JSON.stringify(e));
       throw new ServiceUnavailableException(e);
     }
