@@ -1,6 +1,6 @@
 {
   "name": "nestjs-basic-ftp",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Simple 'basic-ftp' wrapper for NestJs",
   "author": {
     "name": "DamScan",
