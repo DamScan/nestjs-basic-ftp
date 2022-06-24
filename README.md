@@ -57,8 +57,8 @@ import { FtpModule } from 'nestjs-basic-ftp';
       inject: [ConfigService],
     }),
   ],
-  providers: [FileCatcherService],
-  controllers: [FileCatcherController],
+  providers: [],
+  controllers: [],
 })
 export class AppModule {}
 ```

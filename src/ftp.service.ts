@@ -136,7 +136,7 @@ export class FtpService {
         const currentFile = fileListing.find((file) => file.name === info.name);
         if (currentFile) {
           this.logger.debug(
-            `${Math.round((info.bytesOverall * 100) / currentFile.size)} % of ${
+            `${Math.floor((info.bytesOverall * 100) / currentFile.size)} % of ${
               info.name
             } file.`,
           );
